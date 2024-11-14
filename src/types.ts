@@ -2,7 +2,7 @@ export interface Starship {
   name: string;
   model: string;
   manufacturer: string;
-  cost_in_credits: string;
+  cost_in_credits: string; // could be the string "unknown"
   length: string;
   max_atmosphering_speed: string;
   crew: string;
@@ -34,4 +34,10 @@ export interface Film {
   created: string;
   edited: string;
   url: string;
+}
+
+type FilmSpending = Film & { totalStarshipCredits: number };
+export interface StarshipSpendingResponse {
+  byFilm: FilmSpending[];
+  starships: { [key: number]: Starship };
 }
