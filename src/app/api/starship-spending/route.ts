@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Starship, Film, StarshipSpendingResponse } from "@/types";
+import {
+  StarshipResponse,
+  FilmResponse,
+  StarshipSpendingResponse,
+} from "@/types";
 
 // Prone to errors if we don't have guaranteed url format
 const getUrlID = (url: string) => parseInt(url.split("/").pop() as string);
@@ -19,13 +23,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
       filmsRequest,
       starshipsRequest,
     ]);
-    const [filmsJson, starshipsJson]: [Film[], Starship[]] = await Promise.all([
-      filmsResponse.json(),
-      starshipsResponse.json(),
-    ]);
-
-    console.log("FILMS", filmsJson);
-    console.log("STARSHIPS", starshipsJson);
+    const [filmsJson, starshipsJson]: [FilmResponse[], StarshipResponse[]] =
+      await Promise.all([filmsResponse.json(), starshipsResponse.json()]);
 
     // make a map of starships by id for easy lookup
     const starships = starshipsJson.reduce(
@@ -34,7 +33,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
         currentStarship
       ) => ({
         ...prevStarships,
-        [getUrlID(currentStarship.url)]: currentStarship,
+        [getUrlID(currentStarship.url)]: {
+          ...currentStarship,
+          filmIDs: currentStarship.films.map(getUrlID), // add filmIDs so the frontend doesn't need to parse the url
+        },
       }),
       {}
     );
@@ -46,13 +48,14 @@ export async function GET(req: NextRequest, res: NextResponse) {
       .reduce(
         (
           previousCostByFilm: StarshipSpendingResponse["byFilm"],
-          currentFilm: Film
+          currentFilm: FilmResponse
         ) => {
           const totalStarshipCredits = currentFilm.starships.reduce(
             (previous, starshipUrl) => {
               const starship = starships[getUrlID(starshipUrl)];
 
               // only increase credit amount if it is known
+              // we should call this out on the frontend
               if (starship.cost_in_credits !== "unknown") {
                 return previous + parseInt(starship.cost_in_credits, 10);
               }
@@ -63,7 +66,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
           return {
             ...previousCostByFilm,
-            [currentFilm.episode_id]: { ...currentFilm, totalStarshipCredits },
+            [currentFilm.episode_id]: {
+              ...currentFilm,
+              totalStarshipCredits,
+              starshipIDs: currentFilm.starships.map(getUrlID), // add starshipIDs so the frontend doesn't need to parse the url
+            },
           };
         },
         []

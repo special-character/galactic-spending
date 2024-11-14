@@ -1,4 +1,4 @@
-export interface Starship {
+export interface StarshipResponse {
   name: string;
   model: string;
   manufacturer: string;
@@ -19,7 +19,7 @@ export interface Starship {
   url: string;
 }
 
-export interface Film {
+export interface FilmResponse {
   title: string;
   episode_id: number;
   opening_crawl: string;
@@ -36,8 +36,10 @@ export interface Film {
   url: string;
 }
 
-type FilmSpending = Film & { totalStarshipCredits: number };
 export interface StarshipSpendingResponse {
-  byFilm: FilmSpending[];
-  starships: { [key: number]: Starship };
+  byFilm: (FilmResponse & {
+    totalStarshipCredits: number;
+    starshipIDs: number[];
+  })[];
+  starships: { [key: number]: StarshipResponse & { filmIDs: number[] } };
 }
