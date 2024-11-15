@@ -40,6 +40,7 @@ export interface StarshipSpendingResponse {
   byFilm: (FilmResponse & {
     totalStarshipCredits: number;
     starshipIDs: number[];
+    starshipIDsWithUnknownCost: number[];
   })[];
   starships: { [key: number]: StarshipResponse & { filmIDs: number[] } };
 }

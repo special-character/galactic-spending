@@ -50,14 +50,18 @@ export async function GET(req: NextRequest, res: NextResponse) {
           previousCostByFilm: StarshipSpendingResponse["byFilm"],
           currentFilm: FilmResponse
         ) => {
+          const starshipIDsWithUnknownCost: number[] = [];
           const totalStarshipCredits = currentFilm.starships.reduce(
             (previous, starshipUrl) => {
-              const starship = starships[getUrlID(starshipUrl)];
+              const starshipID = getUrlID(starshipUrl);
+              const starship = starships[starshipID];
 
               // only increase credit amount if it is known
               // we should call this out on the frontend
               if (starship.cost_in_credits !== "unknown") {
                 return previous + parseInt(starship.cost_in_credits, 10);
+              } else {
+                starshipIDsWithUnknownCost.push(starshipID);
               }
               return previous;
             },
@@ -70,6 +74,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
               ...currentFilm,
               totalStarshipCredits,
               starshipIDs: currentFilm.starships.map(getUrlID), // add starshipIDs so the frontend doesn't need to parse the url
+              starshipIDsWithUnknownCost,
             },
           };
         },
