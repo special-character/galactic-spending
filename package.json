@@ -20,10 +20,6 @@
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
     "typescript": "^5"
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": "eslint"
   }
 }
