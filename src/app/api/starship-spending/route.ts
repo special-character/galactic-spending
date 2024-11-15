@@ -2,11 +2,28 @@ import { NextResponse } from "next/server";
 import {
   StarshipResponse,
   FilmResponse,
+  FilmIDs,
   StarshipSpendingResponse,
 } from "@/types";
 
 // Prone to errors if we don't have guaranteed url format
 const getUrlID = (url: string) => parseInt(url.split("/").pop() as string);
+
+/**
+ * Film url ids don't map to episode_id
+ * We need a way to standardize on using episode_id using the film url
+ *
+ * DEV NOTE: We could make this dynamic by building this out at runtime
+ * but making this static for simplicity in this exercise
+ */
+const filmUrlIDtoEpisodeID: { [key: number]: FilmIDs } = {
+  4: 1,
+  5: 2,
+  6: 3,
+  1: 4,
+  2: 5,
+  3: 6,
+};
 
 export async function GET() {
   try {
@@ -35,7 +52,9 @@ export async function GET() {
         ...prevStarships,
         [getUrlID(currentStarship.url)]: {
           ...currentStarship,
-          filmIDs: currentStarship.films.map(getUrlID), // add filmIDs so the frontend doesn't need to parse the url
+          episodeIDs: currentStarship.films.map(
+            (filmUrl) => filmUrlIDtoEpisodeID[getUrlID(filmUrl)]
+          ), // add episodeIDs so the frontend doesn't need to parse the url
         },
       }),
       {}
@@ -83,15 +102,16 @@ export async function GET() {
             0
           );
 
-          return {
+          return [
             ...previousCostByFilm,
-            [currentFilm.episode_id]: {
+            // add next film totals
+            {
               ...currentFilm,
               totalStarshipCredits,
               starshipIDs: currentFilm.starships.map(getUrlID), // add starshipIDs so the frontend doesn't need to parse the url
               starshipIDsWithUnknownCost,
             },
-          };
+          ];
         },
         []
       );
