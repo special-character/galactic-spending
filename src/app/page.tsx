@@ -42,40 +42,23 @@ export default function StarshipSpending() {
   if (!starshipSpendingData) return <div>Loading...</div>;
 
   const starshipSpendingChartConfig = {
-    desktop: {
-      label: "Desktop",
+    starshipCost: {
+      label: "Cost: ",
       color: "hsl(var(--chart-1))",
     },
-    // unknownCost: {
-    //   label: "Ships with unknown cost",
-    //   color: "#60a5fa",
-    // },
+    unknownCost: {
+      label: "Ships with unknown cost",
+      color: "#60a5fa",
+    },
   } satisfies ChartConfig;
 
   const starshipChartData = starshipSpendingData.byFilm.map((film) => ({
     episode: film.episode_id,
     starshipCost: film.filmStarshipCost,
-    // unknownCost: film.starshipIDsWithUnknownCost.length,
+    unknownCost: film.starshipIDsWithUnknownCost,
   }));
 
   console.log(starshipChartData);
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-
-  const chartData = [
-    { month: "January", desktop: 186 },
-    { month: "February", desktop: 305 },
-    { month: "March", desktop: 237 },
-    { month: "April", desktop: 73 },
-    { month: "May", desktop: 209 },
-    { month: "June", desktop: 214 },
-  ];
-  const chartConfig = {
-    desktop: {
-      label: "Desktop",
-      color: "hsl(var(--chart-1))",
-    },
-  } satisfies ChartConfig;
 
   return (
     <div className={styles.page}>
@@ -99,7 +82,7 @@ export default function StarshipSpending() {
                 <Line
                   dataKey="starshipCost"
                   type="linear"
-                  stroke="var(--color-desktop)"
+                  stroke="var(--color-starshipCost)" // This key corresponds to the color in the config
                   strokeWidth={2}
                   dot
                 />
@@ -114,39 +97,6 @@ export default function StarshipSpending() {
               Showing total visitors for the last 6 months
             </div>
           </CardFooter>
-        </Card>
-        <Card>
-          <CardContent>
-            <ChartContainer config={chartConfig}>
-              <LineChart
-                data={chartData}
-                margin={{
-                  left: 12,
-                  right: 12,
-                }}
-              >
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  tickFormatter={(value) => value.slice(0, 3)}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent hideLabel />}
-                />
-                <Line
-                  dataKey="desktop"
-                  type="linear"
-                  stroke="var(--color-desktop)"
-                  strokeWidth={2}
-                  dot
-                />
-              </LineChart>
-            </ChartContainer>
-          </CardContent>
         </Card>
       </main>
     </div>
