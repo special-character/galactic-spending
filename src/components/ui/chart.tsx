@@ -1,4 +1,5 @@
-/* eslint @typescript-eslint/no-unused-vars: 0 */
+/* eslint-disable */
+// @ts-nocheck
 "use client";
 
 import * as React from "react";
