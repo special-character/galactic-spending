@@ -4,11 +4,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 
-import {
-  StarshipResponse,
-  FilmResponse,
-  StarshipSpendingResponse,
-} from "@/types";
+import { StarshipSpendingResponse } from "@/types";
 
 export default function StarshipSpending() {
   React.useEffect(() => {

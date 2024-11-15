@@ -8,7 +8,7 @@ import {
 // Prone to errors if we don't have guaranteed url format
 const getUrlID = (url: string) => parseInt(url.split("/").pop() as string);
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET() {
   try {
     // Fetch data for films and starships at the same time
     const filmsRequest = fetch("https://swapi.info/api/films", {
