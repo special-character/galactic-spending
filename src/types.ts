@@ -2,7 +2,7 @@ export interface StarshipResponse {
   name: string;
   model: string;
   manufacturer: string;
-  cost_in_credits: string; // could be the string "unknown"
+  cost_in_credits: `${number}` | "unknown";
   length: string;
   max_atmosphering_speed: string;
   crew: string;
