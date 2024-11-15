@@ -42,7 +42,7 @@ export interface FilmResponse {
 
 export interface StarshipSpendingResponse {
   byFilm: (FilmResponse & {
-    totalStarshipCredits: number;
+    filmStarshipCost: number;
     starshipIDs: number[];
     starshipIDsWithUnknownCost: number[];
   })[];

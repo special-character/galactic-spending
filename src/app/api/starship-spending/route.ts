@@ -71,7 +71,7 @@ export async function GET() {
           currentFilm: FilmResponse
         ) => {
           const starshipIDsWithUnknownCost: number[] = [];
-          const totalStarshipCredits = currentFilm.starships.reduce(
+          const filmStarshipCost = currentFilm.starships.reduce(
             (previous, starshipUrl) => {
               const starshipID = getUrlID(starshipUrl);
 
@@ -81,7 +81,7 @@ export async function GET() {
                * in a film if it was purchased in a previous film
                */
               if (starshipIDsAlreadyPurchased[starshipID]) {
-                return previous;
+                // return previous;
               } else {
                 starshipIDsAlreadyPurchased[starshipID] = true;
               }
@@ -107,7 +107,7 @@ export async function GET() {
             // add next film totals
             {
               ...currentFilm,
-              totalStarshipCredits,
+              filmStarshipCost,
               starshipIDs: currentFilm.starships.map(getUrlID), // add starshipIDs so the frontend doesn't need to parse the url
               starshipIDsWithUnknownCost,
             },
