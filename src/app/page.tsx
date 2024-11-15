@@ -5,15 +5,13 @@ import { TrendingUp } from "lucide-react";
 import styles from "./page.module.css";
 
 import { StarshipSpendingResponse } from "@/types";
-import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
 } from "@/components/shadcn/chart";
 import {
   Card,
@@ -44,15 +42,15 @@ export default function StarshipSpending() {
   if (!starshipSpendingData) return <div>Loading...</div>;
 
   const starshipSpendingChartConfig = {
-    starshipCost: {
-      label: "Total Spend",
+    desktop: {
+      label: "Desktop",
       color: "hsl(var(--chart-1))",
     },
     // unknownCost: {
     //   label: "Ships with unknown cost",
     //   color: "#60a5fa",
     // },
-  };
+  } satisfies ChartConfig;
 
   const starshipChartData = starshipSpendingData.byFilm.map((film) => ({
     episode: film.episode_id,
@@ -64,54 +62,45 @@ export default function StarshipSpending() {
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 
-  const barChartConfig = {
+  const chartData = [
+    { month: "January", desktop: 186 },
+    { month: "February", desktop: 305 },
+    { month: "March", desktop: 237 },
+    { month: "April", desktop: 73 },
+    { month: "May", desktop: 209 },
+    { month: "June", desktop: 214 },
+  ];
+  const chartConfig = {
     desktop: {
       label: "Desktop",
-      color: "#2563eb",
-    },
-    mobile: {
-      label: "Mobile",
-      color: "#60a5fa",
+      color: "hsl(var(--chart-1))",
     },
   } satisfies ChartConfig;
-
-  const barChartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-  ];
 
   return (
     <div className={styles.page}>
       <main className={styles.main}>
         <Card>
           <CardHeader>
-            <CardTitle>Line Chart - Linear</CardTitle>
-            <CardDescription>January - June 2024</CardDescription>
+            <CardTitle>Starship Spending (in credits)</CardTitle>
+            <CardDescription>Empire & Rebels</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer
-              config={starshipSpendingChartConfig}
-              className="min-h-[200px] w-full"
-            >
+            <ChartContainer config={starshipSpendingChartConfig}>
               <LineChart data={starshipChartData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
                   dataKey="episode"
                   tickLine={false}
-                  tickMargin={10}
                   axisLine={false}
+                  tickMargin={10}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <ChartLegend content={<ChartLegendContent />} />
                 <Line
                   dataKey="starshipCost"
                   type="linear"
                   stroke="var(--color-desktop)"
-                  strokeWidth={20}
+                  strokeWidth={2}
                   dot
                 />
               </LineChart>
@@ -126,26 +115,39 @@ export default function StarshipSpending() {
             </div>
           </CardFooter>
         </Card>
-
-        <ChartContainer
-          config={barChartConfig}
-          className="min-h-[200px] w-full"
-        >
-          <BarChart data={barChartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-          </BarChart>
-        </ChartContainer>
+        <Card>
+          <CardContent>
+            <ChartContainer config={chartConfig}>
+              <LineChart
+                data={chartData}
+                margin={{
+                  left: 12,
+                  right: 12,
+                }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Line
+                  dataKey="desktop"
+                  type="linear"
+                  stroke="var(--color-desktop)"
+                  strokeWidth={2}
+                  dot
+                />
+              </LineChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );
