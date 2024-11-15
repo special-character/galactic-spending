@@ -1,7 +1,23 @@
+"use client"; // directive to make this a client side component
+
+import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 
-export default function Home() {
+import { StarshipSpendingResponse } from "@/types";
+
+export default function StarshipSpending() {
+  React.useEffect(() => {
+    // fetch the data we need to show
+    const getInitData = async () => {
+      const response = await fetch("/api/starship-spending");
+      const starshipSpending: StarshipSpendingResponse = await response.json();
+      console.log(starshipSpending);
+    };
+
+    getInitData();
+  }, []);
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
