@@ -41,9 +41,10 @@ export async function GET() {
       {}
     );
 
+    const starshipIDsAlreadyPurchased: { [key: number]: boolean } = {};
     const byFilm = filmsJson
-      // sort films by episode_id to make it easy on the frontend to show the chart in order starting with episode 1
-      // this also allows us to strictly push to the byFilm array
+      // sort films by episode_id to make it easy to show the FE chart starting with episode 1
+      // this also allows us to use the ordering of the films to calculate when a starship was purchased
       .sort((a, b) => a.episode_id - b.episode_id)
       .reduce(
         (
@@ -54,11 +55,25 @@ export async function GET() {
           const totalStarshipCredits = currentFilm.starships.reduce(
             (previous, starshipUrl) => {
               const starshipID = getUrlID(starshipUrl);
+
+              /**
+               * Assumption!!!
+               * We don't count the cost for a starship existing
+               * in a film if it was purchased in a previous film
+               */
+              if (starshipIDsAlreadyPurchased[starshipID]) {
+                return previous;
+              } else {
+                starshipIDsAlreadyPurchased[starshipID] = true;
+              }
+
               const starship = starships[starshipID];
 
-              // only increase credit amount if it is known
-              // we should call this out on the frontend
               if (starship.cost_in_credits !== "unknown") {
+                /**
+                 * Assumption!!!
+                 * only increase credit amount if it is known
+                 */
                 return previous + parseInt(starship.cost_in_credits, 10);
               } else {
                 starshipIDsWithUnknownCost.push(starshipID);
