@@ -27,7 +27,6 @@ export default function StarshipSpending() {
   }, []);
 
   if (!starshipSpendingData) return <div>Loading...</div>;
-  console.log("STARSHIP SPENDING DATA", starshipSpendingData);
   /**
    * Set up data for the line chart
    */
@@ -63,8 +62,6 @@ export default function StarshipSpending() {
 
     return filmBreakdown;
   });
-
-  console.log(`STARSHIP BREAKDOWN DATA`, starshipBreakdownData);
 
   // This is pretty hacky. We could also find the Death Star in the starship data to get the cost,
   // but this is faster for a small project.

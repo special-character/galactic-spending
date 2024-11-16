@@ -90,16 +90,10 @@ export async function GET() {
                * in a film if it was purchased in a previous film
                */
               if (starshipPurchasedEpisode[starshipID]) {
-                console.log(
-                  `Starship: ${starshipID}, Purchased Episode: ${starshipPurchasedEpisode[starshipID]}`
-                );
                 return previous;
               } else {
                 // this starship hasn't been purchased yet, it is now!
                 starshipPurchasedEpisode[starshipID] = currentFilm.episode_id;
-                console.log(
-                  `Starship: ${starshipID}, Purchased Episode: ${currentFilm.episode_id}, Cost: ${starship.cost_in_credits}`
-                );
               }
 
               if (starship.cost_in_credits !== "unknown") {
@@ -114,9 +108,6 @@ export async function GET() {
               return previous;
             },
             0
-          );
-          console.log(
-            `#########################TOTAL STARSHIP COST: ${filmStarshipCost}`
           );
 
           return [
