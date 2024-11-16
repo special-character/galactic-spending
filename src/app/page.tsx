@@ -1,38 +1,25 @@
 "use client"; // directive to make this a client side component
 
 import React from "react";
-import { TrendingUp } from "lucide-react";
 import styles from "./page.module.css";
 
 import { StarshipSpendingResponse } from "@/types";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
-import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/shadcn/chart";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-} from "@/components/shadcn/card";
+import { BreakdownTable } from "@/components/breakdown_table";
+import { StarshipSpendingChart } from "@/components/spending_chart";
 
 export default function StarshipSpending() {
   const [starshipSpendingData, setStarshipSpending] = React.useState<
     StarshipSpendingResponse | undefined
   >(undefined);
 
+  /**
+   * Fetch data from our api
+   */
   React.useEffect(() => {
-    // fetch the data we need to show
     const getInitData = async () => {
       const response = await fetch("/api/starship-spending");
       const starshipSpending: StarshipSpendingResponse = await response.json();
-      console.log(starshipSpending);
       setStarshipSpending(starshipSpending);
     };
 
@@ -40,64 +27,60 @@ export default function StarshipSpending() {
   }, []);
 
   if (!starshipSpendingData) return <div>Loading...</div>;
-
-  const starshipSpendingChartConfig = {
-    starshipCost: {
-      label: "Cost: ",
-      color: "hsl(var(--chart-1))",
-    },
-    unknownCost: {
-      label: "Ships with unknown cost",
-      color: "hsl(var(--chart-2))",
-    },
-  } satisfies ChartConfig;
-
+  console.log("STARSHIP SPENDING DATA", starshipSpendingData);
+  /**
+   * Set up data for the line chart
+   */
   const starshipChartData = starshipSpendingData.byFilm.map((film) => ({
     episode: film.episode_id,
     starshipCost: film.filmStarshipCost,
-    unknownCost: film.starshipIDsWithUnknownCost,
+    starshipsWithUnknownCost: film.starshipIDsWithUnknownCost,
   }));
 
-  console.log(starshipChartData);
+  /**
+   * Set up data for film breakdown tables
+   */
+  const starshipBreakdownData = starshipSpendingData.byFilm.map((film) => {
+    const filmBreakdown = film.starshipIDs.map((starshipID) => {
+      const starship = starshipSpendingData.starships[starshipID];
+      const purchasedInEpisode =
+        starshipSpendingData.starshipPurchasedEpisode[starshipID] <
+        film.episode_id
+          ? starshipSpendingData.starshipPurchasedEpisode[starshipID]
+          : film.episode_id;
+
+      const starshipCost =
+        purchasedInEpisode < film.episode_id ? "-" : starship.cost_in_credits;
+
+      return {
+        episodeID: film.episode_id,
+        starshipID,
+        starshipName: starship.name,
+        purchasedInPriorEpisode: purchasedInEpisode,
+        starshipCost,
+      };
+    });
+
+    return filmBreakdown;
+  });
+
+  console.log(`STARSHIP BREAKDOWN DATA`, starshipBreakdownData);
 
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <Card>
-          <CardHeader>
-            <CardTitle>Starship Spending (in credits)</CardTitle>
-            <CardDescription>Empire & Rebels</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={starshipSpendingChartConfig}>
-              <LineChart data={starshipChartData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="episode"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={10}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Line
-                  dataKey="starshipCost"
-                  type="linear"
-                  stroke="var(--color-starshipCost)" // This key corresponds to the color in the config
-                  strokeWidth={2}
-                  dot
-                />
-              </LineChart>
-            </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="leading-none text-muted-foreground">
-              Showing total starship spending by episode
-            </div>
-          </CardFooter>
-        </Card>
+        <StarshipSpendingChart starshipChartData={starshipChartData} />
+        {starshipBreakdownData.map((breakdown, index) => (
+          <BreakdownTable
+            // safe to use key={index} here because we aren't reordering this list, but we would need to use a unique key if we were
+            key={index}
+            breakdown={breakdown}
+            totalStarshipCost={
+              starshipSpendingData.byFilm[index].filmStarshipCost
+            }
+            episodeName={starshipSpendingData.byFilm[index].title}
+          />
+        ))}
       </main>
     </div>
   );

@@ -40,6 +40,10 @@ export interface FilmResponse {
   url: string;
 }
 
+export interface StarshipPurchasedEpisode {
+  [key: number]: FilmID;
+}
+
 export interface StarshipSpendingResponse {
   byFilm: (FilmResponse & {
     // will not count cost for unknown starships
@@ -48,4 +52,5 @@ export interface StarshipSpendingResponse {
     starshipIDsWithUnknownCost: number[];
   })[];
   starships: { [key: number]: StarshipResponse & { episodeIDs: number[] } };
+  starshipPurchasedEpisode: StarshipPurchasedEpisode;
 }

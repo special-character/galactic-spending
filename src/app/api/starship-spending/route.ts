@@ -4,6 +4,7 @@ import {
   FilmResponse,
   FilmID,
   StarshipSpendingResponse,
+  StarshipPurchasedEpisode,
 } from "@/types";
 
 // Prone to errors if we don't have guaranteed url format
@@ -61,7 +62,14 @@ export async function GET() {
       {}
     );
 
-    const starshipIDsPurchasedEpisode: { [key: number]: FilmID } = {};
+    /**
+     * Calculate what episode a starship was purchased in
+     */
+    const starshipPurchasedEpisode: StarshipPurchasedEpisode = {};
+
+    /**
+     * Calculate the total cost of starships for each film
+     */
     const byFilm = filmsJson
       // sort films by episode_id to make it easy to show the FE chart starting with episode 1
       // this also allows us to use the ordering of the films to calculate when a starship was purchased
@@ -81,15 +89,14 @@ export async function GET() {
                * We don't count the cost for a starship existing
                * in a film if it was purchased in a previous film
                */
-              if (starshipIDsPurchasedEpisode[starshipID]) {
+              if (starshipPurchasedEpisode[starshipID]) {
                 console.log(
-                  `Starship: ${starshipID}, Purchased Episode: ${starshipIDsPurchasedEpisode[starshipID]}`
+                  `Starship: ${starshipID}, Purchased Episode: ${starshipPurchasedEpisode[starshipID]}`
                 );
                 return previous;
               } else {
                 // this starship hasn't been purchased yet, it is now!
-                starshipIDsPurchasedEpisode[starshipID] =
-                  currentFilm.episode_id;
+                starshipPurchasedEpisode[starshipID] = currentFilm.episode_id;
                 console.log(
                   `Starship: ${starshipID}, Purchased Episode: ${currentFilm.episode_id}, Cost: ${starship.cost_in_credits}`
                 );
@@ -120,7 +127,7 @@ export async function GET() {
               filmStarshipCost,
               starshipIDs: currentFilm.starships.map(getUrlID), // add starshipIDs so the frontend doesn't need to parse the url
               starshipIDsWithUnknownCost,
-              starshipIDsAlreadyPurchased: starshipIDsPurchasedEpisode,
+              starshipIDsAlreadyPurchased: starshipPurchasedEpisode,
             },
           ];
         },
@@ -128,7 +135,7 @@ export async function GET() {
       );
 
     return NextResponse.json(
-      { byFilm, starships },
+      { byFilm, starships, starshipPurchasedEpisode },
       {
         status: 200,
       }
