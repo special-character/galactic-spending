@@ -48,7 +48,7 @@ export default function StarshipSpending() {
     },
     unknownCost: {
       label: "Ships with unknown cost",
-      color: "#60a5fa",
+      color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig;
 
@@ -65,7 +65,7 @@ export default function StarshipSpending() {
       <main className={styles.main}>
         <Card>
           <CardHeader>
-            <CardTitle>Starship Spending (in credits)</CardTitle>
+            <CardTitle>Starship Spending By Episode</CardTitle>
             <CardDescription>Empire & Rebels</CardDescription>
           </CardHeader>
           <CardContent>
