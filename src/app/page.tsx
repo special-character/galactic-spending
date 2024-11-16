@@ -66,10 +66,19 @@ export default function StarshipSpending() {
 
   console.log(`STARSHIP BREAKDOWN DATA`, starshipBreakdownData);
 
+  // This is pretty hacky. We could also find the Death Star in the starship data to get the cost,
+  // but this is faster for a small project.
+  const DEATH_STAR_ID = 9;
+  const deathStarCost =
+    starshipSpendingData.starships[DEATH_STAR_ID].cost_in_credits;
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <StarshipSpendingChart starshipChartData={starshipChartData} />
+        <StarshipSpendingChart
+          starshipChartData={starshipChartData}
+          deathStarCost={deathStarCost as unknown as number}
+        />
         {starshipBreakdownData.map((breakdown, index) => (
           <BreakdownTable
             // safe to use key={index} here because we aren't reordering this list, but we would need to use a unique key if we were
