@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import {
   StarshipResponse,
   FilmResponse,
-  FilmIDs,
+  FilmID,
   StarshipSpendingResponse,
 } from "@/types";
 
@@ -16,7 +16,7 @@ const getUrlID = (url: string) => parseInt(url.split("/").pop() as string);
  * DEV NOTE: We could make this dynamic by building this out at runtime
  * but making this static for simplicity in this exercise
  */
-const filmUrlIDtoEpisodeID: { [key: number]: FilmIDs } = {
+const filmUrlIDtoEpisodeID: { [key: number]: FilmID } = {
   4: 1,
   5: 2,
   6: 3,
@@ -60,7 +60,7 @@ export async function GET() {
       {}
     );
 
-    const starshipIDsAlreadyPurchased: { [key: number]: boolean } = {};
+    const starshipIDsAlreadyPurchased: { [key: number]: FilmID } = {};
     const byFilm = filmsJson
       // sort films by episode_id to make it easy to show the FE chart starting with episode 1
       // this also allows us to use the ordering of the films to calculate when a starship was purchased

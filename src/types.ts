@@ -1,6 +1,6 @@
-type FilmUrl = `https://swapi.info/api/films/${FilmIDs}/`;
+type FilmUrl = `https://swapi.info/api/films/${FilmID}/`;
 
-export type FilmIDs = 1 | 2 | 3 | 4 | 5 | 6;
+export type FilmID = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface StarshipResponse {
   name: string;
@@ -25,7 +25,7 @@ export interface StarshipResponse {
 
 export interface FilmResponse {
   title: string;
-  episode_id: FilmIDs;
+  episode_id: FilmID;
   opening_crawl: string;
   director: string;
   producer: string;
@@ -42,8 +42,11 @@ export interface FilmResponse {
 
 export interface StarshipSpendingResponse {
   byFilm: (FilmResponse & {
+    // will not count cost for unknown starships
     filmStarshipCost: number;
+    // will not contain ships if starship was purchased in a prior film
     starshipIDs: number[];
+    // will not contain unknown cost if starship was purchased in a prior film
     starshipIDsWithUnknownCost: number[];
   })[];
   starships: { [key: number]: StarshipResponse & { episodeIDs: number[] } };
