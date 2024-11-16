@@ -2,11 +2,29 @@ import { NextResponse } from "next/server";
 import {
   StarshipResponse,
   FilmResponse,
+  FilmID,
   StarshipSpendingResponse,
+  StarshipPurchasedEpisode,
 } from "@/types";
 
 // Prone to errors if we don't have guaranteed url format
 const getUrlID = (url: string) => parseInt(url.split("/").pop() as string);
+
+/**
+ * Film url ids don't map to episode_id
+ * We need a way to standardize on using episode_id using the film url
+ *
+ * DEV NOTE: We could make this dynamic by building this out at runtime
+ * but making this static for simplicity in this exercise
+ */
+const filmUrlIDtoEpisodeID: { [key: number]: FilmID } = {
+  4: 1,
+  5: 2,
+  6: 3,
+  1: 4,
+  2: 5,
+  3: 6,
+};
 
 export async function GET() {
   try {
@@ -35,15 +53,26 @@ export async function GET() {
         ...prevStarships,
         [getUrlID(currentStarship.url)]: {
           ...currentStarship,
-          filmIDs: currentStarship.films.map(getUrlID), // add filmIDs so the frontend doesn't need to parse the url
+          // add episodeIDs so the frontend doesn't need to parse the url
+          episodeIDs: currentStarship.films.map(
+            (filmUrl) => filmUrlIDtoEpisodeID[getUrlID(filmUrl)]
+          ),
         },
       }),
       {}
     );
 
+    /**
+     * Calculate what episode a starship was purchased in
+     */
+    const starshipPurchasedEpisode: StarshipPurchasedEpisode = {};
+
+    /**
+     * Calculate the total cost of starships for each film
+     */
     const byFilm = filmsJson
-      // sort films by episode_id to make it easy on the frontend to show the chart in order starting with episode 1
-      // this also allows us to strictly push to the byFilm array
+      // sort films by episode_id to make it easy to show the FE chart starting with episode 1
+      // this also allows us to use the ordering of the films to calculate when a starship was purchased
       .sort((a, b) => a.episode_id - b.episode_id)
       .reduce(
         (
@@ -51,14 +80,27 @@ export async function GET() {
           currentFilm: FilmResponse
         ) => {
           const starshipIDsWithUnknownCost: number[] = [];
-          const totalStarshipCredits = currentFilm.starships.reduce(
+          const filmStarshipCost = currentFilm.starships.reduce(
             (previous, starshipUrl) => {
               const starshipID = getUrlID(starshipUrl);
               const starship = starships[starshipID];
+              /**
+               * Assumption!!!
+               * We don't count the cost for a starship existing
+               * in a film if it was purchased in a previous film
+               */
+              if (starshipPurchasedEpisode[starshipID]) {
+                return previous;
+              } else {
+                // this starship hasn't been purchased yet, it is now!
+                starshipPurchasedEpisode[starshipID] = currentFilm.episode_id;
+              }
 
-              // only increase credit amount if it is known
-              // we should call this out on the frontend
               if (starship.cost_in_credits !== "unknown") {
+                /**
+                 * Assumption!!!
+                 * only increase credit amount if it is known
+                 */
                 return previous + parseInt(starship.cost_in_credits, 10);
               } else {
                 starshipIDsWithUnknownCost.push(starshipID);
@@ -68,21 +110,23 @@ export async function GET() {
             0
           );
 
-          return {
+          return [
             ...previousCostByFilm,
-            [currentFilm.episode_id]: {
+            // add next film totals
+            {
               ...currentFilm,
-              totalStarshipCredits,
+              filmStarshipCost,
               starshipIDs: currentFilm.starships.map(getUrlID), // add starshipIDs so the frontend doesn't need to parse the url
               starshipIDsWithUnknownCost,
+              starshipIDsAlreadyPurchased: starshipPurchasedEpisode,
             },
-          };
+          ];
         },
         []
       );
 
     return NextResponse.json(
-      { byFilm, starships },
+      { byFilm, starships, starshipPurchasedEpisode },
       {
         status: 200,
       }

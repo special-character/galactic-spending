@@ -1,0 +1,299 @@
+[
+  {
+    "name": "CR90 corvette",
+    "model": "CR90 corvette",
+    "cost_in_credits": "3500000",
+    "films": [
+      "https://swapi.info/api/films/1",
+      "https://swapi.info/api/films/3",
+      "https://swapi.info/api/films/6"
+    ],
+    "url": "https://swapi.info/api/starships/2"
+  },
+  {
+    "name": "Star Destroyer",
+    "model": "Imperial I-class Star Destroyer",
+    "cost_in_credits": "150000000",
+    "films": [
+      "https://swapi.info/api/films/1",
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/3"
+    ],
+    "url": "https://swapi.info/api/starships/3"
+  },
+  {
+    "name": "Sentinel-class landing craft",
+    "model": "Sentinel-class landing craft",
+    "cost_in_credits": "240000",
+    "films": ["https://swapi.info/api/films/1"],
+    "url": "https://swapi.info/api/starships/5"
+  },
+  {
+    "name": "Death Star",
+    "model": "DS-1 Orbital Battle Station",
+    "cost_in_credits": "1000000000000",
+    "films": ["https://swapi.info/api/films/1"],
+    "url": "https://swapi.info/api/starships/9"
+  },
+  {
+    "name": "Millennium Falcon",
+    "model": "YT-1300 light freighter",
+    "cost_in_credits": "100000",
+    "films": [
+      "https://swapi.info/api/films/1",
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/3"
+    ],
+    "url": "https://swapi.info/api/starships/10"
+  },
+  {
+    "name": "Y-wing",
+    "model": "BTL Y-wing",
+    "cost_in_credits": "134999",
+    "films": [
+      "https://swapi.info/api/films/1",
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/3"
+    ],
+    "url": "https://swapi.info/api/starships/11"
+  },
+  {
+    "name": "X-wing",
+    "model": "T-65 X-wing",
+    "cost_in_credits": "149999",
+    "films": [
+      "https://swapi.info/api/films/1",
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/3"
+    ],
+    "url": "https://swapi.info/api/starships/12"
+  },
+  {
+    "name": "TIE Advanced x1",
+    "model": "Twin Ion Engine Advanced x1",
+    "cost_in_credits": "unknown",
+    "films": ["https://swapi.info/api/films/1"],
+    "url": "https://swapi.info/api/starships/13"
+  },
+  {
+    "name": "Executor",
+    "model": "Executor-class star dreadnought",
+    "cost_in_credits": "1143350000",
+    "films": [
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/3"
+    ],
+    "url": "https://swapi.info/api/starships/15"
+  },
+  {
+    "name": "Rebel transport",
+    "model": "GR-75 medium transport",
+    "cost_in_credits": "unknown",
+    "films": [
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/3"
+    ],
+    "url": "https://swapi.info/api/starships/17"
+  },
+  {
+    "name": "Slave 1",
+    "model": "Firespray-31-class patrol and attack",
+    "cost_in_credits": "unknown",
+    "films": [
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/5"
+    ],
+    "url": "https://swapi.info/api/starships/21"
+  },
+  {
+    "name": "Imperial shuttle",
+    "model": "Lambda-class T-4a shuttle",
+    "cost_in_credits": "240000",
+    "films": [
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/3"
+    ],
+    "url": "https://swapi.info/api/starships/22"
+  },
+  {
+    "name": "EF76 Nebulon-B escort frigate",
+    "model": "EF76 Nebulon-B escort frigate",
+    "cost_in_credits": "8500000",
+    "films": [
+      "https://swapi.info/api/films/2",
+      "https://swapi.info/api/films/3"
+    ],
+    "url": "https://swapi.info/api/starships/23"
+  },
+  {
+    "name": "Calamari Cruiser",
+    "model": "MC80 Liberty type Star Cruiser",
+    "cost_in_credits": "104000000",
+    "films": ["https://swapi.info/api/films/3"],
+    "url": "https://swapi.info/api/starships/27"
+  },
+  {
+    "name": "A-wing",
+    "model": "RZ-1 A-wing Interceptor",
+    "cost_in_credits": "175000",
+    "films": ["https://swapi.info/api/films/3"],
+    "url": "https://swapi.info/api/starships/28"
+  },
+  {
+    "name": "B-wing",
+    "model": "A/SF-01 B-wing starfighter",
+    "cost_in_credits": "220000",
+    "films": ["https://swapi.info/api/films/3"],
+    "url": "https://swapi.info/api/starships/29"
+  },
+  {
+    "name": "Republic Cruiser",
+    "model": "Consular-class cruiser",
+    "cost_in_credits": "unknown",
+    "films": ["https://swapi.info/api/films/4"],
+    "url": "https://swapi.info/api/starships/31"
+  },
+  {
+    "name": "Droid control ship",
+    "model": "Lucrehulk-class Droid Control Ship",
+    "cost_in_credits": "unknown",
+    "films": [
+      "https://swapi.info/api/films/4",
+      "https://swapi.info/api/films/5",
+      "https://swapi.info/api/films/6"
+    ],
+    "url": "https://swapi.info/api/starships/32"
+  },
+  {
+    "name": "Naboo fighter",
+    "model": "N-1 starfighter",
+    "cost_in_credits": "200000",
+    "films": [
+      "https://swapi.info/api/films/4",
+      "https://swapi.info/api/films/5"
+    ],
+    "url": "https://swapi.info/api/starships/39"
+  },
+  {
+    "name": "Naboo Royal Starship",
+    "model": "J-type 327 Nubian royal starship",
+    "cost_in_credits": "unknown",
+    "films": ["https://swapi.info/api/films/4"],
+    "url": "https://swapi.info/api/starships/40"
+  },
+  {
+    "name": "Scimitar",
+    "model": "Star Courier",
+    "cost_in_credits": "55000000",
+    "films": ["https://swapi.info/api/films/4"],
+    "url": "https://swapi.info/api/starships/41"
+  },
+  {
+    "name": "J-type diplomatic barge",
+    "model": "J-type diplomatic barge",
+    "cost_in_credits": "2000000",
+    "films": ["https://swapi.info/api/films/5"],
+    "url": "https://swapi.info/api/starships/43"
+  },
+  {
+    "name": "AA-9 Coruscant freighter",
+    "model": "Botajef AA-9 Freighter-Liner",
+    "cost_in_credits": "unknown",
+    "films": ["https://swapi.info/api/films/5"],
+    "url": "https://swapi.info/api/starships/47"
+  },
+  {
+    "name": "Jedi starfighter",
+    "model": "Delta-7 Aethersprite-class interceptor",
+    "cost_in_credits": "180000",
+    "films": [
+      "https://swapi.info/api/films/5",
+      "https://swapi.info/api/films/6"
+    ],
+    "url": "https://swapi.info/api/starships/48"
+  },
+  {
+    "name": "H-type Nubian yacht",
+    "model": "H-type Nubian yacht",
+    "cost_in_credits": "unknown",
+    "films": ["https://swapi.info/api/films/5"],
+    "url": "https://swapi.info/api/starships/49"
+  },
+  {
+    "name": "Republic Assault ship",
+    "model": "Acclamator I-class assault ship",
+    "cost_in_credits": "unknown",
+    "films": ["https://swapi.info/api/films/5"],
+    "url": "https://swapi.info/api/starships/52"
+  },
+  {
+    "name": "Solar Sailer",
+    "model": "Punworcca 116-class interstellar sloop",
+    "cost_in_credits": "35700",
+    "films": ["https://swapi.info/api/films/5"],
+    "url": "https://swapi.info/api/starships/58"
+  },
+  {
+    "name": "Trade Federation cruiser",
+    "model": "Providence-class carrier/destroyer",
+    "cost_in_credits": "125000000",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/59"
+  },
+  {
+    "name": "Theta-class T-2c shuttle",
+    "model": "Theta-class T-2c shuttle",
+    "cost_in_credits": "1000000",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/61"
+  },
+  {
+    "name": "Republic attack cruiser",
+    "model": "Senator-class Star Destroyer",
+    "cost_in_credits": "59000000",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/63"
+  },
+  {
+    "name": "Naboo star skiff",
+    "model": "J-type star skiff",
+    "cost_in_credits": "unknown",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/64"
+  },
+  {
+    "name": "Jedi Interceptor",
+    "model": "Eta-2 Actis-class light interceptor",
+    "cost_in_credits": "320000",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/65"
+  },
+  {
+    "name": "arc-170",
+    "model": "Aggressive Reconnaissance-170 starfighte",
+    "cost_in_credits": "155000",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/66"
+  },
+  {
+    "name": "Banking clan frigte",
+    "model": "Munificent-class star frigate",
+    "cost_in_credits": "57000000",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/68"
+  },
+  {
+    "name": "Belbullab-22 starfighter",
+    "model": "Belbullab-22 starfighter",
+    "cost_in_credits": "168000",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/74"
+  },
+  {
+    "name": "V-wing",
+    "model": "Alpha-3 Nimbus-class V-wing starfighter",
+    "cost_in_credits": "102500",
+    "films": ["https://swapi.info/api/films/6"],
+    "url": "https://swapi.info/api/starships/75"
+  }
+]

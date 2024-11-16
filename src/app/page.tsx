@@ -1,111 +1,93 @@
 "use client"; // directive to make this a client side component
 
 import React from "react";
-import Image from "next/image";
 import styles from "./page.module.css";
 
 import { StarshipSpendingResponse } from "@/types";
 
+import { BreakdownTable } from "@/components/breakdown_table";
+import { StarshipSpendingChart } from "@/components/spending_chart";
+
 export default function StarshipSpending() {
+  const [starshipSpendingData, setStarshipSpending] = React.useState<
+    StarshipSpendingResponse | undefined
+  >(undefined);
+
+  /**
+   * Fetch data from our api
+   */
   React.useEffect(() => {
-    // fetch the data we need to show
     const getInitData = async () => {
       const response = await fetch("/api/starship-spending");
       const starshipSpending: StarshipSpendingResponse = await response.json();
-      console.log(starshipSpending);
+      setStarshipSpending(starshipSpending);
     };
 
     getInitData();
   }, []);
 
+  if (!starshipSpendingData) return <div>Loading...</div>;
+  /**
+   * Set up data for the line chart
+   */
+  const starshipChartData = starshipSpendingData.byFilm.map((film) => ({
+    episode: film.episode_id,
+    starshipCost: film.filmStarshipCost,
+    starshipsWithUnknownCost: film.starshipIDsWithUnknownCost,
+  }));
+
+  /**
+   * Set up data for film breakdown tables
+   */
+  const starshipBreakdownData = starshipSpendingData.byFilm.map((film) => {
+    const filmBreakdown = film.starshipIDs.map((starshipID) => {
+      const starship = starshipSpendingData.starships[starshipID];
+      const purchasedInEpisode =
+        starshipSpendingData.starshipPurchasedEpisode[starshipID] <
+        film.episode_id
+          ? starshipSpendingData.starshipPurchasedEpisode[starshipID]
+          : film.episode_id;
+
+      const starshipCost =
+        purchasedInEpisode < film.episode_id ? "-" : starship.cost_in_credits;
+
+      return {
+        episodeID: film.episode_id,
+        starshipID,
+        starshipName: starship.name,
+        purchasedInPriorEpisode: purchasedInEpisode,
+        starshipCost,
+      };
+    });
+
+    return filmBreakdown;
+  });
+
+  // This is pretty hacky. We could also find the Death Star in the starship data to get the cost,
+  // but this is faster for a small project.
+  const DEATH_STAR_ID = 9;
+  const deathStarCost =
+    starshipSpendingData.starships[DEATH_STAR_ID].cost_in_credits;
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+        <StarshipSpendingChart
+          starshipChartData={starshipChartData}
+          deathStarCost={deathStarCost as unknown as number}
         />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
+        {starshipBreakdownData.map((breakdown, index) => (
+          <BreakdownTable
+            // safe to use key={index} here because we aren't reordering this list, but we would need to use a unique key if we were
+            key={index}
+            breakdown={breakdown}
+            totalStarshipCost={
+              starshipSpendingData.byFilm[index].filmStarshipCost
+            }
+            episodeName={starshipSpendingData.byFilm[index].title}
+          />
+        ))}
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }

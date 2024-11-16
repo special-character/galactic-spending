@@ -1,0 +1,61 @@
+Starship: 31, Purchased Episode: 1, Cost: unknown
+Starship: 32, Purchased Episode: 1, Cost: unknown
+Starship: 39, Purchased Episode: 1, Cost: 200000
+Starship: 40, Purchased Episode: 1, Cost: unknown
+Starship: 41, Purchased Episode: 1, Cost: 55000000
+#########################TOTAL STARSHIP COST: 55200000
+Starship: 21, Purchased Episode: 2, Cost: unknown
+Starship: 32, Purchased Episode: 1
+Starship: 39, Purchased Episode: 1
+Starship: 43, Purchased Episode: 2, Cost: 2000000
+Starship: 47, Purchased Episode: 2, Cost: unknown
+Starship: 48, Purchased Episode: 2, Cost: 180000
+Starship: 49, Purchased Episode: 2, Cost: unknown
+Starship: 52, Purchased Episode: 2, Cost: unknown
+Starship: 58, Purchased Episode: 2, Cost: 35700
+#########################TOTAL STARSHIP COST: 2215700
+Starship: 2, Purchased Episode: 3, Cost: 3500000
+Starship: 32, Purchased Episode: 1
+Starship: 48, Purchased Episode: 2
+Starship: 59, Purchased Episode: 3, Cost: 125000000
+Starship: 61, Purchased Episode: 3, Cost: 1000000
+Starship: 63, Purchased Episode: 3, Cost: 59000000
+Starship: 64, Purchased Episode: 3, Cost: unknown
+Starship: 65, Purchased Episode: 3, Cost: 320000
+Starship: 66, Purchased Episode: 3, Cost: 155000
+Starship: 68, Purchased Episode: 3, Cost: 57000000
+Starship: 74, Purchased Episode: 3, Cost: 168000
+Starship: 75, Purchased Episode: 3, Cost: 102500
+#########################TOTAL STARSHIP COST: 246245500
+Starship: 2, Purchased Episode: 3
+Starship: 3, Purchased Episode: 4, Cost: 150000000
+Starship: 5, Purchased Episode: 4, Cost: 240000
+Starship: 9, Purchased Episode: 4, Cost: 1000000000000
+Starship: 10, Purchased Episode: 4, Cost: 100000
+Starship: 11, Purchased Episode: 4, Cost: 134999
+Starship: 12, Purchased Episode: 4, Cost: 149999
+Starship: 13, Purchased Episode: 4, Cost: unknown
+#########################TOTAL STARSHIP COST: 1000150624998
+Starship: 3, Purchased Episode: 4
+Starship: 10, Purchased Episode: 4
+Starship: 11, Purchased Episode: 4
+Starship: 12, Purchased Episode: 4
+Starship: 15, Purchased Episode: 5, Cost: 1143350000
+Starship: 17, Purchased Episode: 5, Cost: unknown
+Starship: 21, Purchased Episode: 2
+Starship: 22, Purchased Episode: 5, Cost: 240000
+Starship: 23, Purchased Episode: 5, Cost: 8500000
+#########################TOTAL STARSHIP COST: 1152090000
+Starship: 2, Purchased Episode: 3
+Starship: 3, Purchased Episode: 4
+Starship: 10, Purchased Episode: 4
+Starship: 11, Purchased Episode: 4
+Starship: 12, Purchased Episode: 4
+Starship: 15, Purchased Episode: 5
+Starship: 17, Purchased Episode: 5
+Starship: 22, Purchased Episode: 5
+Starship: 23, Purchased Episode: 5
+Starship: 27, Purchased Episode: 6, Cost: 104000000
+Starship: 28, Purchased Episode: 6, Cost: 175000
+Starship: 29, Purchased Episode: 6, Cost: 220000
+#########################TOTAL STARSHIP COST: 104395000
