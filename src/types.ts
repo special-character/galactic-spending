@@ -44,9 +44,7 @@ export interface StarshipSpendingResponse {
   byFilm: (FilmResponse & {
     // will not count cost for unknown starships
     filmStarshipCost: number;
-    // will not contain ships if starship was purchased in a prior film
     starshipIDs: number[];
-    // will not contain unknown cost if starship was purchased in a prior film
     starshipIDsWithUnknownCost: number[];
   })[];
   starships: { [key: number]: StarshipResponse & { episodeIDs: number[] } };

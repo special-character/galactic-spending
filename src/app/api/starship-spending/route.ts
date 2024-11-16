@@ -52,15 +52,16 @@ export async function GET() {
         ...prevStarships,
         [getUrlID(currentStarship.url)]: {
           ...currentStarship,
+          // add episodeIDs so the frontend doesn't need to parse the url
           episodeIDs: currentStarship.films.map(
             (filmUrl) => filmUrlIDtoEpisodeID[getUrlID(filmUrl)]
-          ), // add episodeIDs so the frontend doesn't need to parse the url
+          ),
         },
       }),
       {}
     );
 
-    const starshipIDsAlreadyPurchased: { [key: number]: FilmID } = {};
+    const starshipIDsPurchasedEpisode: { [key: number]: FilmID } = {};
     const byFilm = filmsJson
       // sort films by episode_id to make it easy to show the FE chart starting with episode 1
       // this also allows us to use the ordering of the films to calculate when a starship was purchased
@@ -74,19 +75,25 @@ export async function GET() {
           const filmStarshipCost = currentFilm.starships.reduce(
             (previous, starshipUrl) => {
               const starshipID = getUrlID(starshipUrl);
-
+              const starship = starships[starshipID];
               /**
                * Assumption!!!
                * We don't count the cost for a starship existing
                * in a film if it was purchased in a previous film
                */
-              if (starshipIDsAlreadyPurchased[starshipID]) {
-                // return previous;
+              if (starshipIDsPurchasedEpisode[starshipID]) {
+                console.log(
+                  `Starship: ${starshipID}, Purchased Episode: ${starshipIDsPurchasedEpisode[starshipID]}`
+                );
+                return previous;
               } else {
-                starshipIDsAlreadyPurchased[starshipID] = true;
+                // this starship hasn't been purchased yet, it is now!
+                starshipIDsPurchasedEpisode[starshipID] =
+                  currentFilm.episode_id;
+                console.log(
+                  `Starship: ${starshipID}, Purchased Episode: ${currentFilm.episode_id}, Cost: ${starship.cost_in_credits}`
+                );
               }
-
-              const starship = starships[starshipID];
 
               if (starship.cost_in_credits !== "unknown") {
                 /**
@@ -101,6 +108,9 @@ export async function GET() {
             },
             0
           );
+          console.log(
+            `#########################TOTAL STARSHIP COST: ${filmStarshipCost}`
+          );
 
           return [
             ...previousCostByFilm,
@@ -110,6 +120,7 @@ export async function GET() {
               filmStarshipCost,
               starshipIDs: currentFilm.starships.map(getUrlID), // add starshipIDs so the frontend doesn't need to parse the url
               starshipIDsWithUnknownCost,
+              starshipIDsAlreadyPurchased: starshipIDsPurchasedEpisode,
             },
           ];
         },

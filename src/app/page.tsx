@@ -65,7 +65,7 @@ export default function StarshipSpending() {
       <main className={styles.main}>
         <Card>
           <CardHeader>
-            <CardTitle>Starship Spending By Episode</CardTitle>
+            <CardTitle>Starship Spending (in credits)</CardTitle>
             <CardDescription>Empire & Rebels</CardDescription>
           </CardHeader>
           <CardContent>
@@ -94,7 +94,7 @@ export default function StarshipSpending() {
               Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
             </div>
             <div className="leading-none text-muted-foreground">
-              Showing total visitors for the last 6 months
+              Showing total starship spending by episode
             </div>
           </CardFooter>
         </Card>
