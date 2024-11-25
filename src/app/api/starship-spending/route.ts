@@ -8,7 +8,8 @@ import {
 } from "@/types";
 
 // Prone to errors if we don't have guaranteed url format
-const getUrlID = (url: string) => parseInt(url.split("/").pop() as string);
+export const getUrlID = (url: string) =>
+  parseInt(url.split("/").pop() as string);
 
 /**
  * Film url ids don't map to episode_id
