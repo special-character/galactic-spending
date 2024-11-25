@@ -26,6 +26,30 @@ const filmUrlIDtoEpisodeID: { [key: number]: FilmID } = {
   3: 6,
 };
 
+export const getStarshipsMap = (starshipsJson: StarshipResponse[]) => {
+  // make a map of starships by id for easy lookup
+  const starships = starshipsJson.reduce(
+    (
+      prevStarships: {
+        [key: number]: StarshipResponse & { episodeIDs: number[] };
+      },
+      currentStarship: StarshipResponse // StarshipSpendingResponse["starships"][0]
+    ) => ({
+      ...prevStarships,
+      [getUrlID(currentStarship.url)]: {
+        ...currentStarship,
+        // add episodeIDs so the frontend doesn't need to parse the url
+        episodeIDs: currentStarship.films.map(
+          (filmUrl) => filmUrlIDtoEpisodeID[getUrlID(filmUrl)]
+        ),
+      },
+    }),
+    {} as { [key: number]: StarshipResponse & { episodeIDs: number[] } }
+  );
+
+  return starships;
+};
+
 export async function GET() {
   try {
     // Fetch data for films and starships at the same time
@@ -44,24 +68,7 @@ export async function GET() {
     const [filmsJson, starshipsJson]: [FilmResponse[], StarshipResponse[]] =
       await Promise.all([filmsResponse.json(), starshipsResponse.json()]);
 
-    // make a map of starships by id for easy lookup
-    const starships = starshipsJson.reduce(
-      (
-        prevStarships: StarshipSpendingResponse["starships"],
-        currentStarship
-      ) => ({
-        ...prevStarships,
-        [getUrlID(currentStarship.url)]: {
-          ...currentStarship,
-          // add episodeIDs so the frontend doesn't need to parse the url
-          episodeIDs: currentStarship.films.map(
-            (filmUrl) => filmUrlIDtoEpisodeID[getUrlID(filmUrl)]
-          ),
-        },
-      }),
-      {}
-    );
-
+    const starships = getStarshipsMap(starshipsJson);
     /**
      * Calculate what episode a starship was purchased in
      */
